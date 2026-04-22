@@ -11,45 +11,77 @@
         body {
             font-family: 'Inter', sans-serif;
         }
+
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 min-h-screen flex flex-col">
 
-    <!-- HEADER START -->
-    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+    <!-- Navbar / Header -->
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
-                <div class="flex items-center">
-                    <div class="flex-shrink-0 flex items-center gap-2">
-                        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                        </svg>
-                        <span class="font-bold text-xl text-gray-800">Barangay Sayog MIS</span>
-                    </div>
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center gap-2">
+                    <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                    </svg>
+                    <span class="font-bold text-xl text-gray-800">Barangay Sayog MIS</span>
                 </div>
-                <div class="flex items-center gap-4">
-                    <a href="index.php" class="text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors">Home</a>
-                    <a href="login.php" class="text-sm font-medium text-gray-600 hover:text-emerald-600 transition-colors">Login</a>
+                <div class="text-sm text-gray-500">
+                    <a href="index.php" class="hover:text-emerald-600 transition-colors">Already have an account? Sign In</a>
                 </div>
             </div>
         </div>
-    </nav>
-    <!-- HEADER END -->
+    </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow py-12 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-3xl mx-auto">
-            <div class="text-center mb-8">
-                <h2 class="text-3xl font-extrabold text-gray-900">Create Your Barangay ID</h2>
+    <!-- Main Content -->
+    <main class="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl w-full space-y-8">
+
+            <!-- Header Section -->
+            <div class="text-center">
+                <h2 class="mt-6 text-3xl font-extrabold text-gray-900">Create Your Barangay ID</h2>
                 <p class="mt-2 text-sm text-gray-600">
                     Register to access digital services, request clearances, and manage your records.
                 </p>
             </div>
 
+            <!-- Error Alerts -->
+            <?php if ($error_message): ?>
+                <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded shadow-sm">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm text-red-700"><?php echo htmlspecialchars($error_message); ?></p>
+                        </div>
+                    </div>
+                </div>
+            <?php endif; ?>
+
             <!-- Registration Form Card -->
             <div class="bg-white py-8 px-4 shadow-xl sm:rounded-lg sm:px-10 border border-gray-100">
-                <form action="" method="POST" class="space-y-8">
+                <form class="space-y-8" action="" method="POST">
 
                     <!-- SECTION 1: Personal Information -->
                     <div>
@@ -65,7 +97,7 @@
                             <div class="sm:col-span-3">
                                 <label for="first_name" class="block text-sm font-medium text-gray-700">First Name <span class="text-red-500">*</span></label>
                                 <div class="mt-1">
-                                    <input type="text" name="first_name" id="first_name" required class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                                    <input type="text" name="first_name" id="first_name" required value="<?php echo htmlspecialchars($_POST['first_name'] ?? ''); ?>" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
                                 </div>
                             </div>
 
@@ -73,7 +105,7 @@
                             <div class="sm:col-span-3">
                                 <label for="middle_name" class="block text-sm font-medium text-gray-700">Middle Name</label>
                                 <div class="mt-1">
-                                    <input type="text" name="middle_name" id="middle_name" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                                    <input type="text" name="middle_name" id="middle_name" value="<?php echo htmlspecialchars($_POST['middle_name'] ?? ''); ?>" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
                                 </div>
                             </div>
 
@@ -81,7 +113,7 @@
                             <div class="sm:col-span-3">
                                 <label for="last_name" class="block text-sm font-medium text-gray-700">Last Name <span class="text-red-500">*</span></label>
                                 <div class="mt-1">
-                                    <input type="text" name="last_name" id="last_name" required class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                                    <input type="text" name="last_name" id="last_name" required value="<?php echo htmlspecialchars($_POST['last_name'] ?? ''); ?>" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
                                 </div>
                             </div>
 
@@ -92,9 +124,9 @@
                                     <select id="suffix" name="suffix" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border bg-white">
                                         <option value="">None</option>
                                         <option value="Jr.">Jr.</option>
-                                        <option value="Sr.">Sr.</option>
-                                        <option value="II">II</option>
-                                        <option value="III">III</option>
+                                        <option value="Sr." <?php echo (($_POST['suffix'] ?? '') == 'Sr.') ? 'selected' : ''; ?>>Sr.</option>
+                                        <option value="II" <?php echo (($_POST['suffix'] ?? '') == 'II') ? 'selected' : ''; ?>>II</option>
+                                        <option value="III" <?php echo (($_POST['suffix'] ?? '') == 'III') ? 'selected' : ''; ?>>III</option>
                                     </select>
                                 </div>
                             </div>
@@ -103,7 +135,7 @@
                             <div class="sm:col-span-3">
                                 <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth <span class="text-red-500">*</span></label>
                                 <div class="mt-1">
-                                    <input type="date" name="dob" id="dob" required class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                                    <input type="date" name="dob" id="dob" required value="<?php echo htmlspecialchars($_POST['dob'] ?? ''); ?>" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
                                 </div>
                             </div>
 
@@ -113,8 +145,8 @@
                                 <div class="mt-1">
                                     <select id="sex" name="sex" required class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border bg-white">
                                         <option value="">Select Sex</option>
-                                        <option value="Male">Male</option>
-                                        <option value="Female">Female</option>
+                                        <option value="Male" <?php echo (($_POST['sex'] ?? '') == 'Male') ? 'selected' : ''; ?>>Male</option>
+                                        <option value="Female" <?php echo (($_POST['sex'] ?? '') == 'Female') ? 'selected' : ''; ?>>Female</option>
                                     </select>
                                 </div>
                             </div>
@@ -138,7 +170,7 @@
                             <div class="sm:col-span-3">
                                 <label for="religion" class="block text-sm font-medium text-gray-700">Religion</label>
                                 <div class="mt-1">
-                                    <input type="text" name="religion" id="religion" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                                    <input type="text" name="religion" id="religion" value="<?php echo htmlspecialchars($_POST['religion'] ?? ''); ?>" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
                                 </div>
                             </div>
                         </div>
@@ -157,10 +189,13 @@
 
                             <!-- Email -->
                             <div class="sm:col-span-3">
-                                <label for="email" class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
-                                <div class="mt-1">
-                                    <input type="email" name="email" id="email" required class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
-                                </div>
+                                <label for="email" class="block text-sm font-medium
+                                                            <!-- Email -->
+                            <div class=" sm:col-span-3">
+                                    <label for="email" class="block text-sm font-medium text-gray-700">Email <span class="text-red-500">*</span></label>
+                                    <div class="mt-1">
+                                        <input type="email" name="email" id="email" required class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                                    </div>
                             </div>
 
                             <!-- Mobile Number -->
@@ -196,7 +231,7 @@
                             <div class="sm:col-span-3">
                                 <label for="username" class="block text-sm font-medium text-gray-700">Username <span class="text-red-500">*</span></label>
                                 <div class="mt-1">
-                                    <input type="text" name="username" id="username" required class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
+                                    <input type="text" name="username" id="username" required value="<?php echo htmlspecialchars($_POST['username'] ?? ''); ?>" class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border">
                                 </div>
                             </div>
 
@@ -219,8 +254,7 @@
                                 <label for="confirm_password" class="block text-sm font-medium text-gray-700">Confirm Password <span class="text-red-500">*</span></label>
                                 <div class="mt-1 relative">
                                     <input type="password" name="confirm_password" id="confirm_password" required class="shadow-sm focus:ring-emerald-500 focus:border-emerald-500 block w-full sm:text-sm border-gray-300 rounded-md p-2 border pr-10">
-                                    <button type="button" onclick="togglePassword('confirm_password', 'eye-icon-confirm')" class="absolute inset-y-0 right-0 pr-3
-                                                                        <button type=" button" onclick="togglePassword('confirm_password', 'eye-icon-confirm')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
+                                    <button type="button" onclick="togglePassword('confirm_password', 'eye-icon-confirm')" class="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600">
                                         <svg id="eye-icon-confirm" class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
@@ -241,21 +275,20 @@
             </div>
 
             <!-- Footer Links -->
-            <div class="text-center text-sm text-gray-500 mt-6">
-                <p>Already have an account? <a href="login.php" class="font-medium text-emerald-600 hover:text-emerald-500">Sign In</a></p>
+            <div class="text-center text-sm text-gray-500">
+                <p>By registering, you agree to our <a href="#" class="text-emerald-600 hover:text-emerald-500">Terms of Service</a> and <a href="#" class="text-emerald-600 hover:text-emerald-500">Privacy Policy</a>.</p>
             </div>
         </div>
     </main>
 
-    <!-- FOOTER START -->
+    <!-- Footer -->
     <footer class="bg-white border-t border-gray-200 mt-auto">
-        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
             <p class="text-center text-sm text-gray-400">
-                &copy; 2024 Barangay Sayog MIS. All rights reserved.
+                &copy; <?php echo date("Y"); ?> Barangay Sayog MIS. All rights reserved.
             </p>
         </div>
     </footer>
-    <!-- FOOTER END -->
 
     <!-- Scripts -->
     <script>
@@ -275,16 +308,16 @@
             }
         }
 
-        // Password Match Validation
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirm_password').value;
-
-            if (password !== confirmPassword) {
-                e.preventDefault();
-                alert("Passwords do not match! Please try again.");
+        // Optional: Auto-fill Barangay if known
+        document.addEventListener('DOMContentLoaded', function() {
+            const addressInput = document.getElementById('address');
+            if (addressInput) {
+                // You can add logic here to auto-fill based on IP or session if needed
+                // addressInput.value += ", Barangay Sayog";
             }
         });
+    </script>
+
     </script>
 </body>
 
