@@ -22,9 +22,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center gap-2">
-                        <svg class="w-8 h-8 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                        </svg>
+                        <img src="img/logo.jpg" width="3%" alt="" srcset="">
                         <span class="font-bold text-xl text-gray-800">Barangay Sayog MIS</span>
                     </div>
                 </div>
@@ -69,7 +67,7 @@
                 </div>
             </div>
             <div class="lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/2 bg-emerald-50">
-                <img class="h-56 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full opacity-90" src="img/logo.jpg" alt="Community">
+                <img class="h-50 w-full object-cover sm:h-72 md:h-96 lg:w-full lg:h-full opacity-90" src="img/bg.jpg" alt="Community">
             </div>
         </div>
 
