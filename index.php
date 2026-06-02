@@ -61,7 +61,7 @@
             </a>
 
             <div class="d-flex align-items-center gap-3">
-                <a href="login.php" class="text-decoration-none text-secondary fw-medium">
+                <a href="auth/login.php" class="text-decoration-none text-secondary fw-medium">
                     Login
                 </a>
 
@@ -103,7 +103,7 @@
                                 Get Started
                             </a>
 
-                            <a href="login.php" class="btn btn-outline-success btn-lg px-4">
+                            <a href="auth/login.php" class="btn btn-outline-success btn-lg px-4">
                                 Sign In
                             </a>
 

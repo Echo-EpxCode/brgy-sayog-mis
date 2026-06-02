@@ -1,10 +1,10 @@
-barangay_sayog_mis/
+barangay-sayog-mis/
 │
 ├── index.php
 │
 ├── config/
-│   ├── database.php
 │   ├── setup.php
+│   ├── database.php
 │   ├── session.php
 │   ├── auth.php
 │   └── functions.php
@@ -19,27 +19,8 @@ barangay_sayog_mis/
 │   ├── header.php
 │   ├── footer.php
 │   ├── nav.php
-│   │
 │   ├── secretary_sidebar.php
 │   └── resident_sidebar.php
-│
-├── assets/
-│   ├── css/
-│   │   ├── style.css
-│   │   └── dashboard.css
-│   │
-│   ├── js/
-│   │   ├── script.js
-│   │   └── dashboard.js
-│   │
-│   ├── images/
-│   │   ├── logo.png
-│   │   └── announcements/
-│   │
-│   └── uploads/
-│       ├── certificates/
-│       ├── residents/
-│       └── announcements/
 │
 ├── secretary/
 │   │
@@ -54,6 +35,8 @@ barangay_sayog_mis/
 │   │
 │   ├── registrations/
 │   │   ├── pending.php
+│   │   ├── approved.php
+│   │   ├── rejected.php
 │   │   ├── approve.php
 │   │   └── reject.php
 │   │
@@ -63,6 +46,7 @@ barangay_sayog_mis/
 │   │   ├── approved.php
 │   │   ├── rejected.php
 │   │   ├── released.php
+│   │   ├── view.php
 │   │   ├── approve.php
 │   │   ├── reject.php
 │   │   └── release.php
@@ -71,6 +55,8 @@ barangay_sayog_mis/
 │   │   ├── clearance.php
 │   │   ├── cedula.php
 │   │   ├── indigency.php
+│   │   ├── generate.php
+│   │   ├── preview.php
 │   │   ├── print.php
 │   │   └── history.php
 │   │
@@ -78,46 +64,77 @@ barangay_sayog_mis/
 │   │   ├── index.php
 │   │   ├── add.php
 │   │   ├── edit.php
+│   │   ├── view.php
 │   │   └── delete.php
 │   │
 │   ├── reports/
+│   │   ├── index.php
 │   │   ├── residents.php
 │   │   ├── requests.php
 │   │   ├── certificates.php
 │   │   └── announcements.php
 │   │
-│   ├── logs/
-│   │   └── activity_logs.php
+│   ├── activity_logs/
+│   │   └── index.php
 │   │
-│   └── settings/
-│       └── index.php
+│   └── profile/
+│       ├── index.php
+│       └── change_password.php
 │
 ├── resident/
 │   │
 │   ├── dashboard.php
 │   │
-│   ├── profile/
-│   │   ├── index.php
-│   │   └── edit.php
+│   ├── documents/
+│   │   ├── request.php
+│   │   ├── clearance.php
+│   │   ├── cedula.php
+│   │   └── indigency.php
 │   │
 │   ├── requests/
-│   │   ├── create.php
-│   │   ├── my_requests.php
-│   │   ├── view.php
-│   │   └── history.php
+│   │   ├── index.php
+│   │   ├── pending.php
+│   │   ├── approved.php
+│   │   ├── rejected.php
+│   │   ├── released.php
+│   │   └── view.php
 │   │
 │   ├── announcements/
-│   │   └── index.php
+│   │   ├── index.php
+│   │   └── view.php
+│   │
+│   ├── profile/
+│   │   ├── index.php
+│   │   ├── edit.php
+│   │   └── change_password.php
 │   │
 │   └── certificates/
-│       └── my_certificates.php
+│       ├── index.php
+│       └── download.php
 │
-├── templates/
-│   ├── clearance_template.php
-│   ├── cedula_template.php
-│   └── indigency_template.php
+├── assets/
+│   │
+│   ├── css/
+│   │   └── styles.css
+│   │
+│   ├── js/
+│   │   └── scripts.js
+│   │
+│   ├── images/
+│   │   ├── logo.png
+│   │   ├── barangay_logo.png
+│   │   └── default_avatar.png
+│   │
+│   └── uploads/
+│       │
+│       ├── residents/
+│       │
+│       ├── certificates/
+│       │
+│       └── announcements/
 │
 ├── database/
-│   └── barangay_sayog_mis.sql
+│   ├── barangay_sayog_mis.sql
+│   └── sample_data.sql
 │
 └── README.md

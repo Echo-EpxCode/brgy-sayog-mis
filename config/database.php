@@ -1,12 +1,25 @@
 <?php
 
-$host = "localhost";
-$dbname = "barangay_sayog_mis";
-$username = "root";
-$password = "";
+// ======================================
+// DATABASE CONFIGURATION
+// ======================================
 
-$conn = mysqli_connect($host, $username, $password, $dbname);
+$host = "localhost";
+$user = "root";
+$password = "";
+$database = "barangay_sayog_mis";
+
+// ======================================
+// DATABASE CONNECTION
+// ======================================
+
+$conn = mysqli_connect(
+    $host,
+    $user,
+    $password,
+    $database
+);
 
 if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    die("Database Connection Failed: " . mysqli_connect_error());
 }
