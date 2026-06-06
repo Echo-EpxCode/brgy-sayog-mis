@@ -1,0 +1,62 @@
+<div class="modal fade" id="rejectModal<?= $row['id'] ?>" tabindex="-1">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <form action="process_reject.php" method="POST">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title">
+
+                        Reject Request
+
+                    </h5>
+
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <input type="hidden" name="request_id" value="<?= $row['id'] ?>">
+
+                    <div class="mb-3">
+
+                        <label class="form-label">
+
+                            Rejection Reason
+
+                        </label>
+
+                        <textarea name="remarks" class="form-control" rows="4" required></textarea>
+
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+
+                        Cancel
+
+                    </button>
+
+                    <button type="submit" class="btn btn-danger">
+
+                        Reject
+
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>

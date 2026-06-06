@@ -52,12 +52,12 @@ $result = mysqli_query($conn, $sql);
 </head>
 
 <body>
-
-        <?php include '../../includes/secretary_sidebar.php'; ?>
+    <?php $base_url = '../../'; ?>
+    <?php include '../../includes/secretary_sidebar.php'; ?>
 
     <div class="main-wrapper">
 
-                <?php include '../../includes/nav.php'; ?>
+        <?php include '../../includes/nav.php'; ?>
 
         <main class="p-4">
 
@@ -129,7 +129,7 @@ $result = mysqli_query($conn, $sql);
 
                         <tbody>
 
-                                            <?php while ($row = mysqli_fetch_assoc($result)): ?>
+                            <?php while ($row = mysqli_fetch_assoc($result)): ?>
 
                                 <tr>
 
@@ -143,7 +143,7 @@ $result = mysqli_query($conn, $sql);
 
                                     <td>
                                         <span class="badge bg-success">
-                                                            <?= $row['status'] ?>
+                                            <?= $row['status'] ?>
                                         </span>
                                     </td>
 
@@ -240,7 +240,7 @@ $result = mysqli_query($conn, $sql);
                                     </div>
                                 </div>
 
-                                            <?php endwhile; ?>
+                            <?php endwhile; ?>
 
                         </tbody>
 
@@ -253,6 +253,7 @@ $result = mysqli_query($conn, $sql);
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../assets/js/scripts.js"></script>
 
 </body>
 

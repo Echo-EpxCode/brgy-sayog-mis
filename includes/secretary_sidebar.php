@@ -1,3 +1,8 @@
+<?php
+
+$current_page = $_SERVER['PHP_SELF'];
+
+?>
 <div id="sidebar" class="sidebar">
 
     <div class="sidebar-header">
@@ -14,16 +19,16 @@
         <ul class="nav flex-column">
 
             <li class="nav-item">
-                <a href="../secretary/dashboard.php" class="nav-link active">
-
-                    <i class="bi bi-grid"></i>
+                <a href="<?= $base_url ?>secretary/dashboard.php"
+                    class="nav-link <?= strpos($current_page, '/secretary/dashboard.php') !== false ? 'active' : '' ?>">
                     Dashboard
 
                 </a>
             </li>
 
             <li class="nav-item">
-                <a href="../secretary/residents/index.php" class="nav-link">
+                <a href="<?= $base_url ?>secretary/residents/index.php"
+                    class="nav-link <?= strpos($current_page, '/secretary/residents/') !== false ? 'active' : '' ?>">
 
                     <i class="bi bi-people"></i>
                     Residents
@@ -32,7 +37,8 @@
             </li>
 
             <li class="nav-item">
-                <a href="../secretary/registrations/pending.php" class="nav-link">
+                <a href="<?= $base_url ?>secretary/registrations/index.php"
+                    class="nav-link <?= strpos($current_page, '/secretary/registrations/') !== false ? 'active' : '' ?>">
 
                     <i class="bi bi-person-check"></i>
                     Registrations
@@ -41,7 +47,8 @@
             </li>
 
             <li class="nav-item">
-                <a href="../secretary/requests/index.php" class="nav-link">
+                <a href="<?= $base_url ?>secretary/requests/index.php"
+                    class="nav-link <?= strpos($current_page, '/secretary/requests/') !== false ? 'active' : '' ?>">
 
                     <i class="bi bi-file-earmark-text"></i>
                     Requests
@@ -50,7 +57,8 @@
             </li>
 
             <li class="nav-item">
-                <a href="../secretary/certificates/history.php" class="nav-link">
+                <a href="<?= $base_url ?>secretary/certificates/history.php"
+                    class="nav-link <?= strpos($current_page, '/secretary/certificates/') !== false ? 'active' : '' ?>">
 
                     <i class="bi bi-award"></i>
                     Certificates
@@ -59,7 +67,8 @@
             </li>
 
             <li class="nav-item">
-                <a href="../secretary/announcements/index.php" class="nav-link">
+                <a href="<?= $base_url ?>secretary/announcements/index.php"
+                    class="nav-link <?= strpos($current_page, '/secretary/announcements/') !== false ? 'active' : '' ?>">
 
                     <i class="bi bi-megaphone"></i>
                     Announcements
@@ -68,7 +77,8 @@
             </li>
 
             <li class="nav-item">
-                <a href="../secretary/reports/residents.php" class="nav-link">
+                <a href="<?= $base_url ?>secretary/reports/index.php" class="nav-link
+                    <?= strpos($current_page, '/secretary/reports/') !== false ? 'active' : '' ?>">
 
                     <i class="bi bi-bar-chart"></i>
                     Reports
@@ -77,7 +87,7 @@
             </li>
 
             <li class="nav-item mt-4">
-                <a href="../auth/logout.php" class="nav-link text-danger">
+                <a href="<?= $base_url ?>auth/logout.php" class="nav-link text-danger">
 
                     <i class="bi bi-box-arrow-right"></i>
                     Logout

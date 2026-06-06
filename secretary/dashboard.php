@@ -117,7 +117,7 @@ $recent_requests = mysqli_query(
 </head>
 
 <body>
-
+    <?php $base_url = '../'; ?>
     <!-- SIDEBAR -->
     <?php include '../includes/secretary_sidebar.php'; ?>
 
