@@ -298,7 +298,7 @@ $result = mysqli_query($conn, $sql);
 
                 <div class="card-body table-responsive">
 
-                    <table class="table table-hover align-middle">
+                    <table class="table table-hover align-middle text-align-center">
 
                         <thead>
 
@@ -309,7 +309,7 @@ $result = mysqli_query($conn, $sql);
                                 <th>Household No.</th>
                                 <th>Gender</th>
                                 <th>Status</th>
-                                <th width="180">
+                                <th width="300">
                                     Actions
                                 </th>
 
@@ -375,6 +375,7 @@ $result = mysqli_query($conn, $sql);
                                             data-bs-target="#viewModal<?= $row['user_id'] ?>">
 
                                             <i class="bi bi-eye"></i>
+                                            View
 
                                         </button>
 
@@ -384,6 +385,7 @@ $result = mysqli_query($conn, $sql);
                                                 data-bs-target="#approveModal<?= $row['user_id'] ?>">
 
                                                 <i class="bi bi-check-circle"></i>
+                                                Approve
 
                                             </button>
 
@@ -391,6 +393,7 @@ $result = mysqli_query($conn, $sql);
                                                 data-bs-target="#rejectModal<?= $row['user_id'] ?>">
 
                                                 <i class="bi bi-x-circle"></i>
+                                                Reject
 
                                             </button>
 

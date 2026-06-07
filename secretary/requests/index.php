@@ -262,7 +262,7 @@ $base_url = '../../';
                                 <th>Document</th>
                                 <th>Status</th>
                                 <th>Date Requested</th>
-                                <th width="220">
+                                <th width="300">
                                     Actions
                                 </th>
 
@@ -339,6 +339,7 @@ $base_url = '../../';
                                             data-bs-target="#viewModal<?= $row['id'] ?>">
 
                                             <i class="bi bi-eye"></i>
+                                            View
 
                                         </button>
 
@@ -350,6 +351,7 @@ $base_url = '../../';
                                                 data-bs-target="#approveModal<?= $row['id'] ?>">
 
                                                 <i class="bi bi-check-circle"></i>
+                                                Approve
 
                                             </button>
 
@@ -359,6 +361,7 @@ $base_url = '../../';
                                                 data-bs-target="#rejectModal<?= $row['id'] ?>">
 
                                                 <i class="bi bi-x-circle"></i>
+                                                Reject
 
                                             </button>
 

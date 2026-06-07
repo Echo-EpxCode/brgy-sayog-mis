@@ -56,7 +56,7 @@
         <div class="container">
 
             <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#">
-                <img src="img/logo.jpg" width="40" alt="Logo">
+                <img src="assets/images/logo.jpg" width="40" alt="Logo">
                 Barangay Sayog MIS
             </a>
 
@@ -65,7 +65,7 @@
                     Login
                 </a>
 
-                <a href="register.php" class="btn btn-success">
+                <a href="auth/register.php" class="btn btn-success">
                     Register
                 </a>
             </div>
@@ -99,7 +99,7 @@
 
                         <div class="d-flex flex-wrap gap-3 mt-4">
 
-                            <a href="register.php" class="btn btn-success btn-lg px-4">
+                            <a href="auth/register.php" class="btn btn-success btn-lg px-4">
                                 Get Started
                             </a>
 
@@ -114,7 +114,7 @@
                     <!-- Right Image -->
                     <div class="col-lg-6 mt-5 mt-lg-0">
                         <div class="bg-success bg-opacity-10 rounded">
-                            <img src="img/bg.jpg" class="img-fluid w-100 hero-image rounded" alt="Community">
+                            <img src="assets/images/bg.jpg" class="img-fluid w-100 hero-image rounded" alt="Community">
                         </div>
                     </div>
 
@@ -235,7 +235,7 @@
     <footer class="bg-white border-top py-4 mt-auto">
         <div class="container">
             <p class="text-center text-muted mb-0">
-                &copy; 2024 Barangay Sayog MIS. All rights reserved.
+                &copy; 2026 Barangay Sayog MIS. All rights reserved.
             </p>
         </div>
     </footer>

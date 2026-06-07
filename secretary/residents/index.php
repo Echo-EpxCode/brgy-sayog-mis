@@ -153,12 +153,14 @@ $result = mysqli_query($conn, $sql);
                                         <button class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#viewModal<?= $row['id'] ?>">
                                             <i class="bi bi-eye"></i>
+                                            View
                                         </button>
 
                                         <!-- EDIT BUTTON -->
                                         <button class="btn btn-sm btn-warning" data-bs-toggle="modal"
                                             data-bs-target="#editModal<?= $row['id'] ?>">
                                             <i class="bi bi-pencil"></i>
+                                            Edit
                                         </button>
 
                                     </td>

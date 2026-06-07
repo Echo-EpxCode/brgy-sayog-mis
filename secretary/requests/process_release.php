@@ -40,7 +40,7 @@ try {
     $q = mysqli_query(
         $conn,
         "SELECT dr.*, dt.document_name,
-                r.first_name, r.middle_name, r.last_name, r.suffix, r.address
+                r.first_name, r.middle_name, r.last_name, r.suffix, r.address, r.civil_status, r.citizenship, r.occupation
          FROM document_requests dr
          INNER JOIN document_types dt ON dr.document_type_id = dt.id
          INNER JOIN residents r ON dr.resident_id = r.id
@@ -71,8 +71,8 @@ try {
     $certificate_id = mysqli_insert_id($conn);
 
     // =========================
-    // 4. GENERATE PDF
-    // =========================
+// 4. GENERATE PDF
+// =========================
 
     $options = new Options();
     $options->set('isRemoteEnabled', true);
@@ -80,14 +80,37 @@ try {
     $dompdf = new Dompdf($options);
 
     ob_start();
-    include '../certificates/templates/barangay_clearance.php';
+
+    // TEMPLATE ROUTER
+    if ($data['document_type_id'] == 1) {
+
+        include '../certificates/templates/barangay_clearance.php';
+
+    } elseif ($data['document_type_id'] == 2) {
+
+        include '../certificates/templates/cedula.php';
+
+    } elseif ($data['document_type_id'] == 3) {
+
+        include '../certificates/templates/certificate_of_indigency.php';
+
+    } else {
+        throw new Exception("Invalid document type ID: " . $data['document_type_id']);
+    }
+
     $html = ob_get_clean();
+
+    // SAFETY CHECK
+    if (empty($html)) {
+        throw new Exception("Template returned empty HTML.");
+    }
 
     $dompdf->loadHtml($html);
     $dompdf->setPaper('A4', 'portrait');
     $dompdf->render();
 
-    $folder = "../../assets/uploads/certificates/";
+    // SAVE PDF FILE
+    $folder = __DIR__ . "/../../assets/uploads/certificates/";
 
     if (!is_dir($folder)) {
         mkdir($folder, 0777, true);
@@ -98,30 +121,28 @@ try {
 
     file_put_contents($file_path, $dompdf->output());
 
-    // =========================
-    // 5. VERIFY FILE EXISTS (CRITICAL)
-    // =========================
-
     if (!file_exists($file_path)) {
-        throw new Exception("PDF generation failed.");
+        throw new Exception("PDF generation failed. File not created.");
     }
 
     // =========================
-    // 6. SAVE FILE PATH
-    // =========================
+// SAVE DB FILE PATH (MISSING BEFORE)
+// =========================
+
+    $web_path = "../../assets/uploads/certificates/" . $filename;
 
     $update = mysqli_prepare(
         $conn,
         "UPDATE certificates SET file_path=? WHERE id=?"
     );
 
-    mysqli_stmt_bind_param($update, "si", $file_path, $certificate_id);
-    mysqli_stmt_execute($update);
+    mysqli_stmt_bind_param($update, "si", $web_path, $certificate_id);
 
-    // =========================
-    // 7. COMMIT
-    // =========================
+    if (!mysqli_stmt_execute($update)) {
+        throw new Exception("Failed to update file_path: " . mysqli_error($conn));
+    }
 
+    // COMMIT
     mysqli_commit($conn);
 
     header("Location: index.php?success=1");

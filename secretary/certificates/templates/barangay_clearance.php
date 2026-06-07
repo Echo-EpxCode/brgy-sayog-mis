@@ -32,16 +32,34 @@
             text-align: right;
         }
     </style>
+
+    <?php
+    // Convert logo to base64 (fixed path resolution)
+    
+    $logoPath = __DIR__ . '/../../../assets/images/logo.jpg';
+
+    if (!file_exists($logoPath)) {
+        die("Logo file not found at: " . $logoPath);
+    }
+
+    $logoType = pathinfo($logoPath, PATHINFO_EXTENSION);
+    $logoData = file_get_contents($logoPath);
+
+    $logoBase64 = 'data:image/' . $logoType . ';base64,' . base64_encode($logoData);
+    ?>
 </head>
 
 <body>
 
-    <div class="header">
-        <h3>REPUBLIC OF THE PHILIPPINES</h3>
-        <h3>BARANGAY SAYOG</h3>
-        <h3>MISAMIS ORIENTAL</h3>
+    <div class="header" style="text-align:center;">
 
-        <div class="title">
+        <img src="<?= $logoBase64 ?>" width="120" style="margin-bottom:10px;">
+
+        <h3 style="margin:0;">REPUBLIC OF THE PHILIPPINES</h3>
+        <h3 style="margin:0;">BARANGAY SAYOG</h3>
+        <h3 style="margin:0;">SAN MIGUEL, ZAMBOANGA DEL SUR</h3>
+
+        <div class="title" style="margin-top:15px; font-size:18px; font-weight:bold;">
             BARANGAY CLEARANCE
         </div>
     </div>

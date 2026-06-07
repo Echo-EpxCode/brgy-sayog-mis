@@ -3,28 +3,33 @@
 require '../../config/database.php';
 require '../../config/session.php';
 
-if (
-    !isset($_SESSION['user_id']) ||
-    $_SESSION['role'] !== 'resident'
-) {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'resident') {
     header('Location: ../../auth/login.php');
     exit;
 }
 
-$user_id = $_SESSION['user_id'];
-
+$user_id = (int) $_SESSION['user_id'];
 $message = "";
 
 // ======================================
-// GET RESIDENT ID
+// GET RESIDENT ID (SAFE VERSION)
 // ======================================
 
-$res = mysqli_query(
+$stmt = mysqli_prepare(
     $conn,
-    "SELECT id FROM residents WHERE user_id = $user_id LIMIT 1"
+    "SELECT id FROM residents WHERE user_id = ? LIMIT 1"
 );
 
-$resident = mysqli_fetch_assoc($res);
+mysqli_stmt_bind_param($stmt, "i", $user_id);
+mysqli_stmt_execute($stmt);
+
+$result = mysqli_stmt_get_result($stmt);
+$resident = mysqli_fetch_assoc($result);
+
+if (!$resident) {
+    $message = "Resident profile not found. Please complete registration.";
+}
+
 $resident_id = $resident['id'] ?? 0;
 
 // ======================================
@@ -36,9 +41,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $document_type_id = (int) $_POST['document_type_id'];
     $purpose = trim($_POST['purpose']);
 
-    if ($document_type_id <= 0 || empty($purpose)) {
+    if ($resident_id <= 0) {
+        $message = "Invalid resident profile.";
+    } elseif ($document_type_id <= 0 || empty($purpose)) {
         $message = "All fields are required.";
     } else {
+
+        $purpose = htmlspecialchars($purpose);
 
         $stmt = mysqli_prepare(
             $conn,
@@ -55,23 +64,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $purpose
         );
 
-        mysqli_stmt_execute($stmt);
-
-        header("Location: ../requests/index.php?success=1");
-        exit;
+        if (mysqli_stmt_execute($stmt)) {
+            header("Location: ../requests/index.php?success=1");
+            exit;
+        } else {
+            $message = "Failed to submit request.";
+        }
     }
 }
 
 // ======================================
 // GET DOCUMENT TYPES
 // ======================================
-
-$docs = mysqli_query(
+$docs_query = mysqli_query(
     $conn,
-    "SELECT * FROM document_types ORDER BY document_name ASC"
+    "SELECT id, document_name FROM document_types ORDER BY document_name ASC"
 );
 
-// REQUIRED FOR SIDEBAR ACTIVE STATE
+if (!$docs_query) {
+    die("Query failed: " . mysqli_error($conn));
+}
+
 $base_url = '../../';
 
 ?>
@@ -137,15 +150,12 @@ $base_url = '../../';
                             <label class="form-label">Document Type</label>
 
                             <select name="document_type_id" class="form-select" required>
-
                                 <option value="">Select document</option>
 
-                                <?php while ($row = mysqli_fetch_assoc($docs)): ?>
-
+                                <?php while ($row = mysqli_fetch_assoc($docs_query)): ?>
                                     <option value="<?= $row['id'] ?>">
                                         <?= htmlspecialchars($row['document_name']) ?>
                                     </option>
-
                                 <?php endwhile; ?>
 
                             </select>
