@@ -117,7 +117,7 @@ if (empty($data['file_path'])) {
 // );
 
 $physical_file = realpath(
-    __DIR__ . '/' . $data['file_path']
+    $data['file_path']
 );
 
 if (!file_exists($physical_file)) {

@@ -108,7 +108,7 @@ function generate_certificate_pdf($conn, $request_id)
     $year = date('Y');
 
     $storage_dir =
-        '../../assets/uploads/certificates/' .
+        'assets/uploads/certificates/' .
         $year;
 
     if (!is_dir($storage_dir)) {

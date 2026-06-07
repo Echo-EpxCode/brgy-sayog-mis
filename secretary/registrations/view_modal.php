@@ -91,19 +91,6 @@
                     </div>
 
                     <div class="col-md-6">
-                        <label class="text-muted">Account Status</label>
-                        <div>
-                            <?php if ($row['status'] === 'Approved'): ?>
-                                <span class="badge bg-success">Approved</span>
-                            <?php elseif ($row['status'] === 'Pending'): ?>
-                                <span class="badge bg-warning text-dark">Pending</span>
-                            <?php else: ?>
-                                <span class="badge bg-danger">Rejected</span>
-                            <?php endif; ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-6">
                         <label class="text-muted">Registered At</label>
                         <div class="fw-bold">
                             <?= date('M d, Y h:i A', strtotime($row['created_at'])) ?>

@@ -86,7 +86,7 @@ class CertificateService
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        $folder = "../../assets/uploads/certificates/";
+        $folder = "assets/uploads/certificates/";
         if (!is_dir($folder)) {
             mkdir($folder, 0777, true);
         }
