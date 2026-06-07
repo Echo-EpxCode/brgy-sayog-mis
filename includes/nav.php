@@ -1,4 +1,4 @@
-<nav class="navbar topbar p-3">
+<nav class="navbar topbar p-4">
 
     <button class="btn btn-outline-success d-lg-none" onclick="toggleSidebar()">
 

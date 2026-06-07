@@ -11,14 +11,11 @@ $current_page = $_SERVER['PHP_SELF'];
 
         <h5 class="fw-bold text-success mb-0">
 
-            <i class="bi bi-house-door-fill"></i>
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoX9_BVQEcoNdQ0nn3nYJ99pr2tkPzpOxfbTBF-r55Gg&s=10"
+                width="40" alt="Logo">
             Resident Portal
 
         </h5>
-
-        <small class="text-muted">
-            Barangay Sayog MIS
-        </small>
 
     </div>
 

@@ -8,8 +8,9 @@ $current_page = $_SERVER['PHP_SELF'];
     <div class="sidebar-header">
 
         <h5 class="fw-bold text-success mb-0">
-            <i class="bi bi-buildings"></i>
-            Barangay MIS
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQoX9_BVQEcoNdQ0nn3nYJ99pr2tkPzpOxfbTBF-r55Gg&s=10"
+                width="40" alt="Logo">
+            Admin Portal
         </h5>
 
     </div>
@@ -21,6 +22,7 @@ $current_page = $_SERVER['PHP_SELF'];
             <li class="nav-item">
                 <a href="<?= $base_url ?>secretary/dashboard.php"
                     class="nav-link <?= strpos($current_page, '/secretary/dashboard.php') !== false ? 'active' : '' ?>">
+                    <i class="bi bi-grid"></i>
                     Dashboard
 
                 </a>
