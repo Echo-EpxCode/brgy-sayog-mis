@@ -119,11 +119,20 @@ SELECT
     u.full_name,
     u.email,
     u.status,
+
     r.id AS resident_id,
     r.household_no,
+    r.first_name,
+    r.middle_name,
+    r.last_name,
+    r.suffix,
     r.gender,
+    r.birth_date,
+    r.civil_status,
     r.contact_no,
     r.address,
+    r.occupation,
+    r.citizenship,
     r.created_at
 FROM users u
 INNER JOIN residents r
@@ -315,7 +324,14 @@ $result = mysqli_query($conn, $sql);
                                 <tr>
 
                                     <td>
-                                        <?= htmlspecialchars($row['full_name']) ?>
+                                        <?= htmlspecialchars(
+                                            trim(
+                                                $row['first_name'] . ' ' .
+                                                $row['middle_name'] . ' ' .
+                                                $row['last_name'] . ' ' .
+                                                $row['suffix']
+                                            )
+                                        ) ?>
                                     </td>
 
                                     <td>
@@ -390,6 +406,8 @@ $result = mysqli_query($conn, $sql);
                                     <?php include 'reject.php'; ?>
 
                                 <?php endif; ?>
+
+                                <?php include 'view_modal.php'; ?>
 
                             <?php endwhile; ?>
 

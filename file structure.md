@@ -71,3 +71,57 @@ barangay-sayog-mis/
 │
 └── database/
 └── barangay_sayog_mis.sql
+
+
+secretary/
+└── certificates/
+    │
+    ├── history.php
+    │   → Lists all issued certificates (admin tracking only)
+    │
+    ├── release.php
+    │   → Approves request + triggers certificate generation + saves file_path
+    │
+    ├── generate_pdf.php
+    │   → Core PDF engine (creates certificate file and returns file path)
+    │
+    ├── view.php
+    │   → Admin-only preview of certificate data (no printing, no download control)
+    │
+    └── templates/
+        │
+        ├── barangay_clearance.php
+        │   → HTML layout for Barangay Clearance PDF
+        │
+        ├── certificate_of_indigency.php
+        │   → HTML layout for Indigency PDF
+        │
+        └── cedula.php
+            → HTML layout for Cedula PDF
+
+
+resident/
+└── requests/
+    │
+    ├── index.php
+    │   → Main tracker of all document requests + download button (if approved)
+    │
+    ├── download.php
+    │   → Secure file delivery (validates ownership + status + file existence)
+
+
+assets/
+└── uploads/
+    └── certificates/
+        │
+        ├── 2024/
+        │   → Generated PDFs for 2024
+        │
+        ├── 2025/
+        │   → Generated PDFs for 2025
+        │
+        ├── 2026/
+        │   → Active year storage (current system output)
+        │
+        └── index.php
+            → Security blocker (prevents directory listing)

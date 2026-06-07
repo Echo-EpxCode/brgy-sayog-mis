@@ -1,207 +1,95 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-
     <meta charset="UTF-8">
-
-    <title>Cedula</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
         body {
-            background: #fff;
             font-family: "Times New Roman", serif;
+            font-size: 14px;
+            line-height: 1.8;
+            margin: 50px;
         }
 
-        .certificate-container {
-            max-width: 900px;
-            margin: 30px auto;
-            padding: 50px;
-            border: 3px solid #000;
-        }
-
-        .certificate-title {
+        .header {
             text-align: center;
-            font-size: 32px;
+        }
+
+        .title {
+            margin-top: 30px;
+            font-size: 22px;
             font-weight: bold;
-            letter-spacing: 2px;
-            margin-top: 40px;
-            margin-bottom: 40px;
+            text-decoration: underline;
         }
 
-        .certificate-body {
-            font-size: 20px;
-            line-height: 2;
-            text-align: justify;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 25px;
         }
 
-        .signature-section {
-            margin-top: 80px;
+        table,
+        td,
+        th {
+            border: 1px solid #000;
+            padding: 8px;
         }
 
-        .signature-line {
-            border-top: 1px solid #000;
-            width: 250px;
-            margin-left: auto;
-            text-align: center;
-            padding-top: 8px;
-        }
-
-        @media print {
-
-            .no-print {
-                display: none;
-            }
-
-            .certificate-container {
-                border: none;
-                margin: 0;
-                max-width: 100%;
-            }
-
+        .signature {
+            margin-top: 60px;
+            text-align: right;
         }
     </style>
-
 </head>
 
 <body>
 
-    <div class="container">
+    <div class="header">
+        <h3>REPUBLIC OF THE PHILIPPINES</h3>
+        <h3>BARANGAY SAYOG</h3>
+        <h3>MISAMIS ORIENTAL</h3>
 
-        <!-- PRINT BUTTON -->
-        <div class="text-end my-3 no-print">
-
-            <button onclick="window.print()" class="btn btn-primary">
-
-                Print Certificate
-
-            </button>
-
+        <div class="title">
+            COMMUNITY TAX CERTIFICATE
         </div>
+    </div>
 
-        <div class="certificate-container">
+    <table>
+        <tr>
+            <th>Full Name</th>
+            <td>
+                <?= strtoupper(trim($data['first_name'] . ' ' . $data['middle_name'] . ' ' . $data['last_name'])) ?>
+            </td>
+        </tr>
 
-            <!-- HEADER -->
-            <div class="text-center">
+        <tr>
+            <th>Address</th>
+            <td><?= htmlspecialchars($data['address']) ?></td>
+        </tr>
 
-                <h5 class="mb-0">Republic of the Philippines</h5>
-                <h5 class="mb-0">Province of Misamis Oriental</h5>
-                <h5 class="mb-0">Municipality of __________</h5>
+        <tr>
+            <th>Civil Status</th>
+            <td><?= htmlspecialchars($data['civil_status']) ?></td>
+        </tr>
 
-                <h4 class="fw-bold mt-2">
-                    BARANGAY SAYOG
-                </h4>
+        <tr>
+            <th>Citizenship</th>
+            <td><?= htmlspecialchars($data['citizenship']) ?></td>
+        </tr>
 
-            </div>
+        <tr>
+            <th>Occupation</th>
+            <td><?= htmlspecialchars($data['occupation']) ?></td>
+        </tr>
 
-            <!-- TITLE -->
-            <div class="certificate-title">
-                COMMUNITY TAX CERTIFICATE (CEDULA)
-            </div>
+        <tr>
+            <th>Purpose</th>
+            <td><?= htmlspecialchars($data['purpose']) ?></td>
+        </tr>
+    </table>
 
-            <!-- BODY -->
-            <div class="certificate-body">
-
-                <p>TO WHOM IT MAY CONCERN:</p>
-
-                <p>
-
-                    This certifies that
-
-                    <strong>
-                        <?= htmlspecialchars($full_name) ?>
-                    </strong>
-
-                    , a resident of Barangay Sayog, is recorded in this office as a bona fide resident
-                    of this barangay.
-
-                </p>
-
-                <p>
-
-                    This certificate is issued for the purpose of securing a Community Tax Certificate
-                    (Cedula) and for any legal use it may serve.
-
-                </p>
-
-                <p>
-
-                    Issued this
-
-                    <strong>
-                        <?= date('F d, Y', strtotime($certificate['issued_date'])) ?>
-                    </strong>
-
-                    at Barangay Sayog.
-
-                </p>
-
-            </div>
-
-            <!-- DETAILS -->
-            <div class="mt-5">
-
-                <table class="table table-bordered">
-
-                    <tr>
-                        <th width="30%">Full Name</th>
-                        <td>
-                            <?= htmlspecialchars($full_name) ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>Address</th>
-                        <td>
-                            <?= htmlspecialchars($certificate['address'] ?? '') ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>Civil Status</th>
-                        <td>
-                            <?= htmlspecialchars($certificate['civil_status'] ?? '') ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>Occupation</th>
-                        <td>
-                            <?= htmlspecialchars($certificate['occupation'] ?? '') ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>Certificate No.</th>
-                        <td>
-                            <?= htmlspecialchars($certificate['certificate_no']) ?>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <th>Household No.</th>
-                        <td>
-                            <?= htmlspecialchars($certificate['household_no'] ?? '') ?>
-                        </td>
-                    </tr>
-
-                </table>
-
-            </div>`
-
-            <!-- SIGNATURE -->
-            <div class="signature-section">
-
-                <div class="signature-line">
-                    <strong>Barangay Captain</strong>
-                </div>
-
-            </div>
-
-        </div>
-
+    <div class="signature">
+        <strong>Barangay Treasurer</strong>
     </div>
 
 </body>

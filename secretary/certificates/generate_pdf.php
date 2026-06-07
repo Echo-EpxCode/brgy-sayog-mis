@@ -1,226 +1,157 @@
 <?php
 
-require '../../config/database.php';
-require '../../config/session.php';
-
 use Dompdf\Dompdf;
 use Dompdf\Options;
 
 require '../../vendor/autoload.php';
 
-if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'secretary') {
-    header('Location: ../../auth/login.php');
-    exit;
-}
-
-$request_id = (int) $_POST['request_id'];
-$issued_by = (int) $_SESSION['user_id'];
-
-mysqli_begin_transaction($conn);
-
-try {
-
+/**
+ * Generate certificate PDF
+ *
+ * @param mysqli $conn
+ * @param int $request_id
+ * @return string
+ */
+function generate_certificate_pdf($conn, $request_id)
+{
     // ======================================
-    // 1. UPDATE REQUEST TO RELEASED
-    // ======================================
-
-    $stmt = mysqli_prepare(
-        $conn,
-        "UPDATE document_requests
-         SET status='Released',
-             released_at=NOW()
-         WHERE id=?"
-    );
-
-    mysqli_stmt_bind_param($stmt, "i", $request_id);
-    mysqli_stmt_execute($stmt);
-
-    // ======================================
-    // 2. FETCH REQUEST DATA FOR PDF
-    // ======================================
-
-    $query = mysqli_query(
-        $conn,
-        "SELECT
-            dr.id,
-            dr.purpose,
-            dt.document_name,
-            r.id AS resident_id,
-            r.first_name,
-            r.middle_name,
-            r.last_name,
-            r.suffix,
-            r.address,
-            r.civil_status,
-            r.occupation,
-            r.citizenship,
-            r.household_no
-         FROM document_requests dr
-         INNER JOIN document_types dt ON dr.document_type_id = dt.id
-         INNER JOIN residents r ON dr.resident_id = r.id
-         WHERE dr.id = $request_id"
-    );
-
-    $data = mysqli_fetch_assoc($query);
-
-    if (!$data) {
-        throw new Exception("Request not found.");
-    }
-
-    // ======================================
-    // 3. CREATE CERTIFICATE IF NOT EXISTS
-    // ======================================
-
-    $check = mysqli_prepare(
-        $conn,
-        "SELECT id FROM certificates WHERE request_id=?"
-    );
-
-    mysqli_stmt_bind_param($check, "i", $request_id);
-    mysqli_stmt_execute($check);
-
-    $result = mysqli_stmt_get_result($check);
-
-    if (mysqli_num_rows($result) == 0) {
-
-        $certificate_no = "BRGY-" . date('Y') . "-" . strtoupper(substr(md5(uniqid()), 0, 6));
-
-        $insert = mysqli_prepare(
-            $conn,
-            "INSERT INTO certificates
-            (request_id, certificate_no, issued_date, issued_by)
-            VALUES (?, ?, NOW(), ?)"
-        );
-
-        mysqli_stmt_bind_param(
-            $insert,
-            "isi",
-            $request_id,
-            $certificate_no,
-            $issued_by
-        );
-
-        mysqli_stmt_execute($insert);
-
-        $certificate_id = mysqli_insert_id($conn);
-
-    } else {
-
-        $row = mysqli_fetch_assoc($result);
-        $certificate_id = $row['id'];
-    }
-
-    // ======================================
-    // 4. PREPARE FULL DATA FOR PDF
-    // ======================================
-
-    $full_name = trim(
-        $data['first_name'] . ' ' .
-        $data['middle_name'] . ' ' .
-        $data['last_name'] . ' ' .
-        $data['suffix']
-    );
-
-    // ======================================
-    // 5. LOAD TEMPLATE OUTPUT
+    // GET REQUEST DATA
     // ======================================
 
     $stmt = mysqli_prepare(
         $conn,
         "SELECT
-            c.*,
-            dr.purpose,
+            dr.*,
             dt.document_name,
-            r.first_name,
-            r.middle_name,
-            r.last_name,
-            r.suffix,
-            r.address,
-            r.civil_status,
-            r.occupation,
-            r.citizenship,
-            r.household_no
-         FROM certificates c
-         INNER JOIN document_requests dr ON c.request_id = dr.id
-         INNER JOIN document_types dt ON dr.document_type_id = dt.id
-         INNER JOIN residents r ON dr.resident_id = r.id
-         WHERE c.id = ?"
+            r.*,
+            c.certificate_no
+        FROM document_requests dr
+        INNER JOIN document_types dt
+            ON dr.document_type_id = dt.id
+        INNER JOIN residents r
+            ON dr.resident_id = r.id
+        INNER JOIN certificates c
+            ON c.request_id = dr.id
+        WHERE dr.id = ?
+        LIMIT 1"
     );
 
-    mysqli_stmt_bind_param($stmt, "i", $certificate_id);
+    mysqli_stmt_bind_param(
+        $stmt,
+        "i",
+        $request_id
+    );
+
     mysqli_stmt_execute($stmt);
 
     $result = mysqli_stmt_get_result($stmt);
-    $certificate = mysqli_fetch_assoc($result);
+
+    $data = mysqli_fetch_assoc($result);
+
+    if (!$data) {
+        die('Certificate data not found.');
+    }
+
+    // ======================================
+    // LOAD TEMPLATE
+    // ======================================
+
+    $document_name = strtolower(
+        trim($data['document_name'])
+    );
 
     ob_start();
 
-    switch ($certificate['document_name']) {
+    switch ($document_name) {
 
-        case 'Barangay Clearance':
-            include '../certificates/templates/barangay_clearance.php';
+        case 'barangay clearance':
+            include __DIR__ . '/templates/barangay_clearance.php';
             break;
 
-        case 'Certificate of Indigency':
-            include '../certificates/templates/certificate_of_indigency.php';
+        case 'certificate of indigency':
+            include __DIR__ . '/templates/certificate_of_indigency.php';
             break;
 
-        case 'Cedula':
-            include '../certificates/templates/cedula.php';
+        case 'cedula':
+            include __DIR__ . '/templates/cedula.php';
             break;
 
         default:
-            throw new Exception("No template found.");
+            die('Invalid certificate template.');
     }
 
     $html = ob_get_clean();
 
     // ======================================
-    // 6. GENERATE PDF
+    // DOMPDF CONFIG
     // ======================================
 
     $options = new Options();
+
     $options->set('isRemoteEnabled', true);
 
     $dompdf = new Dompdf($options);
+
     $dompdf->loadHtml($html);
-    $dompdf->setPaper('A4', 'portrait');
-    $dompdf->render();
 
-    $folder = "../../assets/uploads/certificates/";
-
-    if (!is_dir($folder)) {
-        mkdir($folder, 0777, true);
-    }
-
-    $filename = "CERT-" . $certificate['certificate_no'] . ".pdf";
-    $file_path = $folder . $filename;
-
-    file_put_contents($file_path, $dompdf->output());
-
-    // ======================================
-    // 7. UPDATE FILE PATH
-    // ======================================
-
-    $update = mysqli_prepare(
-        $conn,
-        "UPDATE certificates SET file_path=? WHERE id=?"
+    $dompdf->setPaper(
+        'A4',
+        'portrait'
     );
 
-    mysqli_stmt_bind_param($update, "si", $file_path, $certificate_id);
-    mysqli_stmt_execute($update);
+    $dompdf->render();
 
     // ======================================
-    // DONE
+    // STORAGE DIRECTORY
     // ======================================
 
-    mysqli_commit($conn);
+    $year = date('Y');
 
-    header("Location: index.php?released=1");
-    exit;
+    $storage_dir =
+        '../../assets/uploads/certificates/' .
+        $year;
 
-} catch (Exception $e) {
+    if (!is_dir($storage_dir)) {
 
-    mysqli_rollback($conn);
-    die("Release failed: " . $e->getMessage());
+        mkdir(
+            $storage_dir,
+            0777,
+            true
+        );
+    }
+
+    // ======================================
+    // FILE NAME
+    // ======================================
+
+    $file_name =
+        preg_replace(
+            '/[^A-Za-z0-9\-]/',
+            '_',
+            $data['certificate_no']
+        ) . '.pdf';
+
+    $absolute_file =
+        $storage_dir .
+        '/' .
+        $file_name;
+
+    // ======================================
+    // SAVE PDF
+    // ======================================
+
+    file_put_contents(
+        $absolute_file,
+        $dompdf->output()
+    );
+
+    // ======================================
+    // RETURN DB PATH
+    // ======================================
+
+    return
+        'assets/uploads/certificates/' .
+        $year .
+        '/' .
+        $file_name;
 }

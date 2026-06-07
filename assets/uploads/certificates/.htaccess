@@ -1,0 +1,9 @@
+Options -Indexes
+
+<FilesMatch "\.(php|phtml|php5|phar)$">
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "\.pdf$">
+    Allow from all
+</FilesMatch>
