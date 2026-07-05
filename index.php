@@ -114,7 +114,12 @@
                     <!-- Right Image -->
                     <div class="col-lg-6 mt-5 mt-lg-0">
                         <div class="bg-success bg-opacity-10 rounded">
-                            <img src="assets/images/bg.jpg" class="img-fluid w-100 hero-image rounded" alt="Community">
+                            <div class="position-relative">
+                                <img src="assets/images/brgy-sayog.jpg"
+                                    class="img-fluid w-100 rounded"
+                                    style="height:450px; object-fit:cover; filter:brightness(55%);"
+                                    alt="Community">
+                            </div>
                         </div>
                     </div>
 
