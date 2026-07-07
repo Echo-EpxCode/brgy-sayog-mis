@@ -1,7 +1,8 @@
 <?php
 
-require '../../config/database.php';
-require '../../config/session.php';
+
+require __DIR__ . '/../../config/database.php';
+require __DIR__ . '/../../config/session.php';
 
 if (
     !isset($_SESSION['user_id']) ||
