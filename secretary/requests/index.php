@@ -374,7 +374,7 @@ $base_url = '../../';
                                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
                                                 data-bs-target="#releaseModal<?= $row['id'] ?>">
 
-                                                <i class="bi bi-box-seam"></i>
+                                                <i class="bi bi-box-seam"></i> Release
 
                                             </button>
 
